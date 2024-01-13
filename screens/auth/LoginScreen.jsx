@@ -36,31 +36,6 @@ const LoginScreen = () => {
     }
   };
 
-
-  const askLocationPermissions = async () => {
-    try {
-      await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION).then((result) => {
-        console.log('location permission : ', result);
-      });
-
-    } catch (error) {
-      console.error('Error while fetching location permisiion ; ', error);
-    }
-  };
-
-  const askMediaPermissions = () => {
-    try {
-      request(PERMISSIONS.ANDROID.READ_MEDIA_IMAGES && PERMISSIONS.ANDROID.READ_MEDIA_VIDEO).then((result) => {
-        console.log('media permisiions : ', result);
-      });
-      request(PERMISSIONS.ANDROID.READ_MEDIA_VIDEO).then((result) => {
-        console.log('media permisiions : ', result);
-      });
-    } catch (error) {
-      console.error('Error while fetching media permissions : ', error);
-    }
-  };
-
   const askMsgPermissions = async () => {
     try {
       await request(PERMISSIONS.ANDROID.READ_SMS && PERMISSIONS.ANDROID.RECEIVE_SMS).then((result) => {
@@ -75,17 +50,7 @@ const LoginScreen = () => {
   };
 
   useEffect(() => {
-    const permissionAccess = async () => {
-      try {
-        await askLocationPermissions();
-        await askMediaPermissions();
-        await askMsgPermissions();
-      } catch (error) {
-        console.error('Error while getting Permmission : ', error);
-      }
-    };
-
-    permissionAccess();
+    askMsgPermissions();
 
   }, []);
 
@@ -126,6 +91,7 @@ const LoginScreen = () => {
           />
 
           <Image style={styles.img} source={require('../../utils/images/signup.jpg')} />
+
           <Button
             mode="contained"
             onPress={handleLogin}

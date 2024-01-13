@@ -5,7 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LandingScreen from './screens/landing/index';
 import LoginScreen from './screens/auth/LoginScreen';
 import HomeScreen from './screens/home/index';
-import EditingScreen from './screens/editor/index'
+import EditingScreen from './screens/editor/index';
+import HostelDetails from './screens/hostelDetails/index';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,7 +23,7 @@ const App = () => {
           name="Login"
           component={LoginScreen}
           options={{ header: () => null }}
-          />
+        />
         <Stack.Screen
           name="Home"
           component={HomeScreen}
@@ -33,7 +34,11 @@ const App = () => {
           component={EditingScreen}
           options={{ header: () => null }}
         />
-
+        <Stack.Screen
+          name="HostelDetails"
+          component={HostelDetails}
+          options={{ header: () => null }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

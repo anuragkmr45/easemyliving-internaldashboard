@@ -1,18 +1,40 @@
-import React from 'react';
-import { View, Image, StyleSheet, SafeAreaView } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { request, PERMISSIONS } from 'react-native-permissions';
 
+import EditingCarousel from '../../components/carousel/EditingCarousel';
 import Img from '../../utils/images/signup.jpg';
 
 const Editing = () => {
-    const images = [Img, Img, Img, Img,Img, Img];
+    const entries = [
+        { title: Img },
+        { title: Img },
+        { title: Img },
+    ];
+    // const askMediaPermissions = () => {
+    //     try {
+    //         request(PERMISSIONS.ANDROID.READ_MEDIA_IMAGES && PERMISSIONS.ANDROID.READ_MEDIA_VIDEO).then((result) => {
+    //             console.log('media permisiions : ', result);
+    //         });
+    //         request(PERMISSIONS.ANDROID.READ_MEDIA_VIDEO).then((result) => {
+    //             console.log('media permisiions : ', result);
+    //         });
+    //     } catch (error) {
+    //         console.error('Error while fetching media permissions : ', error);
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     askMediaPermissions();
+    // }, []);
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.gallery}>
-                {images.map((image, index) => (
-                    <Image key={index} source={image} style={styles.image} />
-                ))}
-            </View>
+            <ScrollView>
+                <View style={styles.card} >
+                    <EditingCarousel data={entries} />
+                </View>
+            </ScrollView>
         </SafeAreaView>
     );
 };
@@ -22,20 +44,13 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 10,
+        paddingVertical: 15,
+        // marginHorizontal: 10,
     },
-    gallery: {
-        flexDirection: 'column',
-        justifyContent: 'space-around',
-        flexWrap: 'wrap',
-        marginBottom: 10,
-    },
-    image: {
-        width: 200,
-        height: 200,
-        resizeMode: 'cover',
-        borderRadius: 8,
-        margin: 10,
+    card: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
 

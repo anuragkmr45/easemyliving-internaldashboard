@@ -1,24 +1,26 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
-import { Button } from 'react-native-paper';
+import React, { useEffect } from 'react';
+import { View, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+
+import ProgressBarLoader from '../../components/loader/ProgressBarLoader';
 
 const LandingPage = () => {
     const navigation = useNavigation();
 
-    const handleLoginClick = () => {
-        navigation.navigate('Login');
-    };
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            navigation.navigate('Login');
+        }, 1500);
+
+        return () => clearTimeout(timeoutId);
+    }, [navigation]);
 
     return (
         <View style={styles.container}>
             <View style={styles.middleContainer}>
                 <Image style={styles.logo} source={require('../../utils/images/logo.png')} />
             </View>
-
-            <Button style={styles.button} onPress={handleLoginClick}>
-                <Text style={styles.buttonText}>Login</Text>
-            </Button>
+            <ProgressBarLoader />
         </View>
     );
 };
@@ -26,7 +28,6 @@ const LandingPage = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // backgroundColor: '#4272f5',
         justifyContent: 'space-between',
     },
     middleContainer: {
@@ -38,26 +39,6 @@ const styles = StyleSheet.create({
         height: 130,
         width: 250,
         alignSelf: 'center',
-        marginBottom: 100,
-    },
-
-    titleText: {
-        color: 'white',
-        fontSize: 20,
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    button: {
-        backgroundColor: 'black',
-        padding: 10,
-        alignItems: 'center',
-        marginBottom: 10,
-        marginHorizontal: 20,
-    },
-    buttonText: {
-        color: 'white',
-        fontSize: 18,
-        fontWeight: 'bold',
     },
 });
 
