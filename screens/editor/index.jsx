@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { request, PERMISSIONS } from 'react-native-permissions';
 
-import EditingCarousel from '../../components/carousel/EditingCarousel';
+// import EditingCarousel from '../../components/carousel/EditingCarousel';
 import Img from '../../utils/images/signup.jpg';
 
 const Editing = () => {
@@ -32,7 +32,7 @@ const Editing = () => {
         <SafeAreaView style={styles.container}>
             <ScrollView>
                 <View style={styles.card} >
-                    <EditingCarousel data={entries} />
+                    {/* <EditingCarousel data={entries} /> */}
                 </View>
             </ScrollView>
         </SafeAreaView>

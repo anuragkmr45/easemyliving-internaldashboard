@@ -1,14 +1,14 @@
 import React, { useRef } from 'react';
-import { StyleSheet, Text, SafeAreaView, Image, ScrollView, View } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, Image, ScrollView } from 'react-native';
 
-import MultipleCardCarousel from '../../components/carousel/multiple-card/index';
+// import MultipleCardCarousel from '../../components/carousel/multiple-card/index';
 
 const HostelDetails = () => {
     const scrollViewRef = useRef();
     return (
         <SafeAreaView style={styles.safeArea}>
             <ScrollView style={styles.container}>
-                <MultipleCardCarousel />
+                {/* <MultipleCardCarousel /> */}
                 <Text>HostelDetails</Text>
                 <ScrollView ref={scrollViewRef} horizontal={true} style={styles.gallery}>
                     <Image source={require('../../utils/images/signup.jpg')} style={styles.img} />
