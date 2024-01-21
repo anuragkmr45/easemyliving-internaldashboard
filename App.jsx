@@ -6,6 +6,7 @@ import LandingScreen from './screens/index';
 import LoginScreen from './screens/auth/LoginScreen';
 import HomeScreen from './screens/FetchByRoomId/index';
 import HostelListScreen from './screens/edit/index';
+import HostelDtlScreen from './screens/edit/hostellist/hostel-detail/index';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +32,11 @@ const App = () => {
         <Stack.Screen
           name="HostelList"
           component={HostelListScreen}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name="HostelDtl"
+          component={HostelDtlScreen}
           options={{ header: () => null }}
         />
       </Stack.Navigator>

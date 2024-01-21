@@ -13,6 +13,8 @@ export default function BottomNavBar({ NavScreen1, NavScreen2, roomid }) {
                 tabBarStyle: [
                     {
                         display: 'flex',
+                        height: 60,
+                        // backgroundColor: 'white',
                     },
                     null,
                 ],
@@ -39,22 +41,6 @@ export default function BottomNavBar({ NavScreen1, NavScreen2, roomid }) {
         </Tab.Navigator>
     );
 }
-
-// function HomeScreen() {
-//     return (
-//         <Text variant="headlineMedium" style={styles.container}>
-//             Home!hbfhgbnfg
-//         </Text>
-//     );
-// }
-
-// function SettingsScreen() {
-//     return (
-//         <Text variant="headlineMedium" style={styles.container}>
-//             Settings!
-//         </Text>
-//     );
-// }
 
 // const styles = StyleSheet.create({
 //     container: {

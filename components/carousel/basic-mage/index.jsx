@@ -2,11 +2,15 @@ import React from 'react';
 import { View, Image, StyleSheet, Dimensions } from 'react-native';
 import Swiper from 'react-native-swiper';
 
-const ImageCarousel = ({ images }) => {
+const BasicImageCarousel = ({ images }) => {
 
     return (
         <Swiper
             style={styles.wrapper}
+            autoplay={true}
+            autoplayTimeout={5}
+            autoplayDirection={true}
+            springConfig={{ speed: 2 }}
         // showsButtons
         >
             {images.map((imageUrl, index) => (
@@ -34,4 +38,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ImageCarousel;
+export default BasicImageCarousel;

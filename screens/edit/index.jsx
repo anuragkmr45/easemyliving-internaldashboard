@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
+import { StyleSheet, SafeAreaView } from 'react-native';
 
 import BottomNav from '../../components/bottom-navigations/index';
 import SettingScreen from './settings/index';
