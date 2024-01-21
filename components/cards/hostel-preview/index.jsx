@@ -5,16 +5,9 @@ import { useNavigation } from '@react-navigation/native';
 
 import BasicImageCarousel from '../../carousel/basic-mage/index';
 
-const HostelPreview = ({ roomid, views, roomavaliable, screen }) => {
+const HostelPreview = ({ roomid, views, roomavaliable, screen, images }) => {
 
     const navigation = useNavigation();
-
-    const images = [
-        'https://picsum.photos/700',
-        'https://picsum.photos/700',
-        'https://picsum.photos/700',
-        'https://picsum.photos/700',
-    ];
 
     return (
         <Card style={styles.container}>

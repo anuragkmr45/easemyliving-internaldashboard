@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Image, KeyboardAvoidingView, Platform, ScrollView, Alert } from 'react-native';
+import { View, StyleSheet, Image, KeyboardAvoidingView, Platform, ScrollView, Alert, BackHandler } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { TextInput, Button } from 'react-native-paper';
 import { request, PERMISSIONS } from 'react-native-permissions';
@@ -50,9 +50,34 @@ const LoginScreen = () => {
   };
 
   useEffect(() => {
+    const disableBackHandler = navigation.addListener('beforeRemove', (e) => {
+
+      e.preventDefault();
+
+      Alert.alert(
+        'Alert',
+        'Do you want to exit the app?',
+        [
+          {
+            text: 'No',
+            style: 'cancel',
+            onPress: () => { },
+          },
+          {
+            text: 'Yes',
+            onPress: () => BackHandler.exitApp(),
+          },
+        ]
+      );
+    });
+
     askMsgPermissions();
 
-  }, []);
+    return () => {
+      // Remove the event listener when the component is unmounted
+      disableBackHandler();
+    };
+  }, [navigation]);
 
   return (
     <KeyboardAvoidingView

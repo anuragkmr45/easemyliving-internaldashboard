@@ -1,41 +1,37 @@
 import React from 'react';
-import { View, Image, StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, Image } from 'react-native';
 import Swiper from 'react-native-swiper';
 
-const BasicImageCarousel = ({ images }) => {
+const { width } = Dimensions.get('window');
 
+const ImageCarousel = ({ images }) => {
     return (
         <Swiper
-            style={styles.wrapper}
-            autoplay={true}
-            autoplayTimeout={5}
-            autoplayDirection={true}
-            springConfig={{ speed: 2 }}
-        // showsButtons
+            style={styles.carousel}
+            autoplay
+            autoplayTimeout={3}
+            showsPagination
         >
             {images.map((imageUrl, index) => (
-                <View key={index} style={styles.slide}>
-                    <Image source={{ uri: imageUrl }} style={styles.image} />
-                </View>
+                <ImageSlide key={index} imageUrl={imageUrl} />
             ))}
         </Swiper>
     );
 };
 
+const ImageSlide = ({ imageUrl }) => (
+    <Image source={{ uri: imageUrl }} style={styles.image} />
+);
+
 const styles = StyleSheet.create({
-    wrapper: {
-        height: 200,
-    },
-    slide: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+    carousel: {
+        height: 250,
     },
     image: {
-        width: Dimensions.get('window').width - 40,
-        height: 200,
+        width: width,
+        height: '100%',
         resizeMode: 'cover',
     },
 });
 
-export default BasicImageCarousel;
+export default ImageCarousel;

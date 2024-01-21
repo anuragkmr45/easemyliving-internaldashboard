@@ -10,6 +10,8 @@ import HostelDtlScreen from './screens/edit/hostellist/hostel-detail/index';
 
 const Stack = createNativeStackNavigator();
 
+export const currentUser = true;
+
 const App = () => {
   return (
     <NavigationContainer theme={DefaultTheme}>
@@ -19,26 +21,36 @@ const App = () => {
           component={LandingScreen}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name="Login"
           component={LoginScreen}
-          options={{ header: () => null }}
+          options={{
+            // header: () => null,
+            headerLeft: null,
+          }}
         />
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ header: () => null }}
-        />
-        <Stack.Screen
-          name="HostelList"
-          component={HostelListScreen}
-          options={{ header: () => null }}
-        />
-        <Stack.Screen
-          name="HostelDtl"
-          component={HostelDtlScreen}
-          options={{ header: () => null }}
-        />
+        {
+          currentUser && (
+            <>
+              <Stack.Screen
+                name="Home"
+                component={HomeScreen}
+                options={{ header: () => null }}
+              />
+              <Stack.Screen
+                name="HostelList"
+                component={HostelListScreen}
+                options={{ header: () => null }}
+              />
+              <Stack.Screen
+                name="HostelDtl"
+                component={HostelDtlScreen}
+                options={{ header: () => null }}
+              />
+            </>
+          )
+        }
       </Stack.Navigator>
     </NavigationContainer>
   );
