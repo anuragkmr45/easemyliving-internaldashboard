@@ -41,9 +41,9 @@ const LoginScreen = () => {
       await request(PERMISSIONS.ANDROID.READ_SMS && PERMISSIONS.ANDROID.RECEIVE_SMS).then((result) => {
         console.log('msg permissions : ', result);
       });
-      await request(PERMISSIONS.ANDROID.RECEIVE_SMS).then((result) => {
-        console.log('msg permissions : ', result);
-      });
+      // await request(PERMISSIONS.ANDROID.RECEIVE_SMS).then((result) => {
+      //   console.log('msg permissions : ', result);
+      // });
     } catch (error) {
       console.error('Erorr while fetching msg permission : ', error);
     }

@@ -1,41 +1,45 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, Text, View } from 'react-native';
-import { request, PERMISSIONS } from 'react-native-permissions';
+import React, { useCallback, useState } from 'react';
+import { View, Button, Image, StyleSheet, Alert } from 'react-native';
+import { launchImageLibrary } from 'react-native-image-picker';
 
-// import EditingCarousel from '../../components/carousel/EditingCarousel';
-import Img from '../../utils/images/signup.jpg';
+const UploadImageScreen = () => {
+    const [selectedImage, setSelectedImage] = useState(null);
 
-const Editing = () => {
-    const entries = [
-        { title: Img },
-        { title: Img },
-        { title: Img },
-    ];
-    // const askMediaPermissions = () => {
-    //     try {
-    //         request(PERMISSIONS.ANDROID.READ_MEDIA_IMAGES && PERMISSIONS.ANDROID.READ_MEDIA_VIDEO).then((result) => {
-    //             console.log('media permisiions : ', result);
-    //         });
-    //         request(PERMISSIONS.ANDROID.READ_MEDIA_VIDEO).then((result) => {
-    //             console.log('media permisiions : ', result);
-    //         });
-    //     } catch (error) {
-    //         console.error('Error while fetching media permissions : ', error);
-    //     }
-    // };
+    const handleSelectImage = useCallback(() => {
+        const options = {
+            mediaType: 'photo',
+            // maxWidth: 800,
+            // maxHeight: 600,
+            // quality: 0.8,
+        };
 
-    // useEffect(() => {
-    //     askMediaPermissions();
-    // }, []);
+        launchImageLibrary(options, (response) => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.errorCode) {
+                console.error('ImagePicker Error: ', response.errorCode, response.errorMessage);
+            } else {
+                // Use the selected image
+                setSelectedImage(response.assets[0]?.uri || null);
+            }
+        });
+    }, []);
+
+    const handleUploadImage = useCallback(() => {
+        // Implement your image upload logic here
+        if (selectedImage) {
+            Alert.alert('Image Upload', 'Implement your image upload logic here');
+        } else {
+            Alert.alert('No Image Selected', 'Please select an image before uploading.');
+        }
+    }, [selectedImage]);
 
     return (
-        <SafeAreaView style={styles.container}>
-            <ScrollView>
-                <View style={styles.card} >
-                    {/* <EditingCarousel data={entries} /> */}
-                </View>
-            </ScrollView>
-        </SafeAreaView>
+        <View style={styles.container}>
+            {selectedImage && <Image source={{ uri: selectedImage }} style={styles.image} />}
+            <Button title="Select Image" onPress={handleSelectImage} />
+            <Button title="Upload Image" onPress={handleUploadImage} />
+        </View>
     );
 };
 
@@ -44,14 +48,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical: 15,
-        // marginHorizontal: 10,
+        padding: 16,
     },
-    card: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+    image: {
+        width: 200,
+        height: 200,
+        resizeMode: 'cover',
+        marginBottom: 20,
     },
 });
 
-export default Editing;
+export default UploadImageScreen;

@@ -31,7 +31,7 @@ const HomeScreen = () => {
     return (
         <View style={styles.container}>
             <View style={styles.content}>
-                <InputCard />
+                <InputCard screen="HostelList" />
             </View>
 
             <Button mode="contained" style={styles.btn} onPress={handleLogout}>

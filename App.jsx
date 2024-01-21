@@ -2,11 +2,10 @@ import React from 'react';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import LandingScreen from './screens/landing/index';
+import LandingScreen from './screens/index';
 import LoginScreen from './screens/auth/LoginScreen';
-import HomeScreen from './screens/home/index';
-import EditingScreen from './screens/editor/index';
-import HostelDetails from './screens/hostelDetails/index';
+import HomeScreen from './screens/FetchByRoomId/index';
+import HostelListScreen from './screens/edit/index';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,13 +29,8 @@ const App = () => {
           options={{ header: () => null }}
         />
         <Stack.Screen
-          name="Editing"
-          component={EditingScreen}
-          options={{ header: () => null }}
-        />
-        <Stack.Screen
-          name="HostelDetails"
-          component={HostelDetails}
+          name="HostelList"
+          component={HostelListScreen}
           options={{ header: () => null }}
         />
       </Stack.Navigator>

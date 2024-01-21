@@ -3,14 +3,14 @@ import { StyleSheet } from 'react-native';
 import { Card, Button, TextInput } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
-const InputCard = () => {
+const InputCard = ({ screen }) => {
 
     const navigation = useNavigation();
 
     const [roomID, setRoomID] = useState('');
 
     const hadleSubmit = () => {
-        navigation.navigate('Editing');
+        navigation.navigate(screen);
     };
 
     return (
