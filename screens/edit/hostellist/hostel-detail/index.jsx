@@ -1,28 +1,22 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, SafeAreaView, View, Alert, Image } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { StyleSheet, SafeAreaView, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
-import { request, PERMISSIONS } from 'react-native-permissions';
+import { Image } from 'react-native-compressor';
 
 import BottomNav from '../../../../components/bottom-navigations/index';
 import SettingScreen from '../../settings/index';
 import HorizontalCarousel from '../../../../components/carousel/horizontal/index';
 
+const images = [
+    'https://picsum.photos/700',
+    'https://picsum.photos/600',
+    'https://picsum.photos/500',
+    'https://picsum.photos/400',
+    'https://picsum.photos/300',
+    'https://picsum.photos/200',
+];
 const HostelDtls = () => {
-
-    const askCameraPermissions = async () => {
-        try {
-            await request(PERMISSIONS.ANDROID.CAMERA).then((result) => {
-                console.log('camera permissions : ', result);
-            });
-        } catch (error) {
-            console.error('Erorr while fetching msg permission : ', error);
-        }
-    };
-
-    useEffect(() => {
-        askCameraPermissions();
-    }, []);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -34,21 +28,26 @@ const HostelDtls = () => {
 const HostelDtlScreen = () => {
     const [selectedImage, setSelectedImage] = useState(null);
 
-    const images = [
-        'https://picsum.photos/700',
-        'https://picsum.photos/600',
-        'https://picsum.photos/500',
-        'https://picsum.photos/400',
-        'https://picsum.photos/300',
-        'https://picsum.photos/200',
-    ];
+    const compressImage = async (uri) => {
+        try {
+            const compressedUri = await Image.compress(uri, {
+                quality: 0.8,
+                maxWidth: 800,
+                maxHeight: 600,
+            });
 
+            return compressedUri;
+        } catch (error) {
+            console.error('Error compressing image: ', error);
+            return uri;
+        }
+    };
 
-    const handleSelectImage = useCallback(() => {
+    const handleSelectImage = useCallback(async () => {
         const options = {
             mediaType: 'photo',
-            // maxWidth: 800,
-            // maxHeight: 600,
+            maxWidth: 800,
+            maxHeight: 600,
             // quality: 0.8,
         };
 
@@ -58,8 +57,8 @@ const HostelDtlScreen = () => {
             } else if (response.errorCode) {
                 console.error('ImagePicker Error: ', response.errorCode, response.errorMessage);
             } else {
-                // Use the selected image
-                setSelectedImage(response.assets[0]?.uri || null);
+                const compressedImage = compressImage(response.assets[0]?.uri || null);
+                setSelectedImage(compressedImage);
             }
         });
     }, []);
@@ -80,14 +79,16 @@ const HostelDtlScreen = () => {
         });
     }, []);
 
-    // const images = selectedImage ? [selectedImage, ...initialImages] : initialImages;
-
     return (
-        <SafeAreaView>
-            <HorizontalCarousel images={images} />
-            <View style={styles.btngrp}>
-                <Button mode="contained" onPress={handleSelectImage} >Add Image From Device</Button>
-                <Button mode="elevated" onPress={handleOpenCamera}>Open Camera</Button>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.centeredContainer}>
+                <HorizontalCarousel images={images} />
+            </View>
+            <View style={styles.bottomContainer}>
+                <View style={styles.btngrp}>
+                    <Button mode="contained" onPress={handleSelectImage} >Add Image From Device</Button>
+                    <Button mode="elevated" onPress={handleOpenCamera}>Open Camera</Button>
+                </View>
             </View>
         </SafeAreaView>
     );
@@ -97,6 +98,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingBottom: 0,
+        justifyContent: 'center',
+    },
+    centeredContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        marginTop: 10,
+    },
+    bottomContainer: {
+        justifyContent: 'flex-end',
     },
     gallaryImgs: {
         height: 80,

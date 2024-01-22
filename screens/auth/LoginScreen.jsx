@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Image, KeyboardAvoidingView, Platform, ScrollView, Alert, BackHandler } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { TextInput, Button } from 'react-native-paper';
-import { request, PERMISSIONS } from 'react-native-permissions';
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -36,19 +35,6 @@ const LoginScreen = () => {
     }
   };
 
-  const askMsgPermissions = async () => {
-    try {
-      await request(PERMISSIONS.ANDROID.READ_SMS && PERMISSIONS.ANDROID.RECEIVE_SMS).then((result) => {
-        console.log('msg permissions : ', result);
-      });
-      // await request(PERMISSIONS.ANDROID.RECEIVE_SMS).then((result) => {
-      //   console.log('msg permissions : ', result);
-      // });
-    } catch (error) {
-      console.error('Erorr while fetching msg permission : ', error);
-    }
-  };
-
   useEffect(() => {
     const disableBackHandler = navigation.addListener('beforeRemove', (e) => {
 
@@ -70,8 +56,6 @@ const LoginScreen = () => {
         ]
       );
     });
-
-    askMsgPermissions();
 
     return () => {
       // Remove the event listener when the component is unmounted

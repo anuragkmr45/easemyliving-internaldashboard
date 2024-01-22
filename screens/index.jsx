@@ -1,25 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Animated, Easing } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-// import SoundPlayer from 'react-native-sound-player';
 
 import ProgressBarLoader from '../components/loader/ProgressBarLoader/index';
 
 const LandingPage = () => {
 
-    // SoundPlayer.setup();
     const navigation = useNavigation();
     const bounceValue = useRef(new Animated.Value(0.1)).current;
 
     useEffect(() => {
-        // const playSoundOnMount = async () => {
-        //     try {
-        //         // Play a sound when the screen mounts
-        //         SoundPlayer.playSoundFile('landing-effect', 'mp3');
-        //     } catch (error) {
-        //         console.log('Cannot play the sound file', error);
-        //     }
-        // };
 
         const bounceAnimation = Animated.sequence([
             Animated.timing(bounceValue, { toValue: 1.04, duration: 1000, easing: Easing.inOut(Easing.ease), useNativeDriver: false }),
@@ -31,8 +21,6 @@ const LandingPage = () => {
         }, 1500);
 
         Animated.loop(bounceAnimation).start();
-
-        // playSoundOnMount();
 
         return () => {
             clearTimeout(timeoutId);
