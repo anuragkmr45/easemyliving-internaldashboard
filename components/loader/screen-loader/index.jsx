@@ -58,8 +58,8 @@ const styles = StyleSheet.create({
         marginBottom: 16,
     },
     box: {
-        width: 150,
-        height: 150,
+        width: 50,
+        height: 50,
         backgroundColor: 'gray',
         marginHorizontal: 8,
     },

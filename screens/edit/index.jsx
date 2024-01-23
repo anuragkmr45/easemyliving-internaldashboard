@@ -16,11 +16,11 @@ const HostelList = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingBottom: 0, // Ensure no padding at the bottom
+        paddingBottom: 0,
     },
     scrollContainer: {
         flexGrow: 1,
-        paddingBottom: 60, // Adjust this value based on your BottomNav's height
+        paddingBottom: 60,
     },
 });
 

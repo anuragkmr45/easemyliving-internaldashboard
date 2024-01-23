@@ -6,7 +6,7 @@ import LandingScreen from '../screens/index';
 import LoginScreen from '../screens/auth/LoginScreen';
 import HomeScreen from '../screens/FetchByRoomId/index';
 import HostelListScreen from '../screens/edit/index';
-import HostelDtlScreen from '../screens/edit/hostellist/hostel-detail/index';
+import HostelDtlScreen from '../screens/edit/hostel-detail/index';
 
 const Stack = createNativeStackNavigator();
 

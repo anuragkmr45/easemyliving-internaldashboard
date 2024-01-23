@@ -2,11 +2,10 @@ import React, { useState, useCallback } from 'react';
 import { StyleSheet, SafeAreaView, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
-import { Image } from 'react-native-compressor';
 
-import BottomNav from '../../../../components/bottom-navigations/index';
-import SettingScreen from '../../settings/index';
-import HorizontalCarousel from '../../../../components/carousel/horizontal/index';
+import BottomNav from '../../../components/bottom-navigations/index';
+import SettingScreen from '../settings/index';
+import HorizontalCarousel from '../../../components/carousel/horizontal/index';
 
 const images = [
     'https://picsum.photos/700',
@@ -28,21 +27,6 @@ const HostelDtls = () => {
 const HostelDtlScreen = () => {
     const [selectedImage, setSelectedImage] = useState(null);
 
-    const compressImage = async (uri) => {
-        try {
-            const compressedUri = await Image.compress(uri, {
-                quality: 0.8,
-                maxWidth: 800,
-                maxHeight: 600,
-            });
-
-            return compressedUri;
-        } catch (error) {
-            console.error('Error compressing image: ', error);
-            return uri;
-        }
-    };
-
     const handleSelectImage = useCallback(async () => {
         const options = {
             mediaType: 'photo',
@@ -57,8 +41,8 @@ const HostelDtlScreen = () => {
             } else if (response.errorCode) {
                 console.error('ImagePicker Error: ', response.errorCode, response.errorMessage);
             } else {
-                const compressedImage = compressImage(response.assets[0]?.uri || null);
-                setSelectedImage(compressedImage);
+                // const compressedImage = compressImage(response.assets[0]?.uri || null);
+                setSelectedImage(response.assets[0]?.uri || null);
             }
         });
     }, []);

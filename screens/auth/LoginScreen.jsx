@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Image, KeyboardAvoidingView, Platform, ScrollView, Alert, BackHandler } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { TextInput, Button } from 'react-native-paper';
+import { usePermissionsContext } from '../../context/PermissionsProvider';
 
 const LoginScreen = () => {
   const navigation = useNavigation();
+  const { getMsgPermissions } = usePermissionsContext();
 
   const [identifier, setIdentifier] = useState('');
   const [phone, setPhone] = useState(false);
@@ -19,19 +21,45 @@ const LoginScreen = () => {
   };
 
   const handleCheckForPhoneOrEmail = (text) => {
-    setIdentifier(text);
+    setIdentifier(text.trim());
+  };
+  useEffect(() => {
+    // Validate phone or email after the user makes an input
+    const timer = setTimeout(() => {
+      if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier)) {
+        console.log('Entered text is an email address');
+        setEmail(true);
+        setPhone(false);
+      } else if (/^\d{10}$/.test(identifier)) {
+        console.log('Entered text is a phone number');
+        setPhone(true);
+        setEmail(false);
+      } else {
+        console.log('Entered text is neither an email address nor a valid phone number');
+        setEmail(false);
+        setPhone(false);
+      }
+    }, 2000);
 
-    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text)) {
-      console.log('Entered text is an email address');
-      setEmail(true);
-    } else if (/^\d{10}$/.test(text)) {
-      console.log('Entered text is a phone number');
-      setPhone(true);
-    } else {
-      console.log('Entered text is neither an email address nor a valid phone number');
-      Alert.alert('Wrong Credentials');
-      setEmail(false);
-      setPhone(false);
+    // Clear the timer if the user makes another input within the delay
+    return () => clearTimeout(timer);
+  }, [identifier]);
+
+  const handleMsgPermission = async () => {
+    try {
+      await getMsgPermissions();
+    } catch (error) {
+      console.error('Error while getting msg permission: ', error);
+      Alert.alert(
+        'Alert',
+        'Something went wrong while getting message permission',
+        [
+          {
+            text: 'Close',
+            onPress: () => { },
+          },
+        ]
+      );
     }
   };
 
@@ -56,6 +84,7 @@ const LoginScreen = () => {
         ]
       );
     });
+
 
     return () => {
       // Remove the event listener when the component is unmounted
@@ -85,7 +114,7 @@ const LoginScreen = () => {
 
           <TextInput
             label="Password"
-            placeholder="Password"
+            placeholder="*******"
             value={password}
             onChangeText={(text) => setPassword(text)}
             mode="outlined"
