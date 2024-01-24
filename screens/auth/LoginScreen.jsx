@@ -45,24 +45,6 @@ const LoginScreen = () => {
     return () => clearTimeout(timer);
   }, [identifier]);
 
-  const handleMsgPermission = async () => {
-    try {
-      await getMsgPermissions();
-    } catch (error) {
-      console.error('Error while getting msg permission: ', error);
-      Alert.alert(
-        'Alert',
-        'Something went wrong while getting message permission',
-        [
-          {
-            text: 'Close',
-            onPress: () => { },
-          },
-        ]
-      );
-    }
-  };
-
   useEffect(() => {
     const disableBackHandler = navigation.addListener('beforeRemove', (e) => {
 
@@ -85,12 +67,27 @@ const LoginScreen = () => {
       );
     });
 
+    try {
+      getMsgPermissions();
+    } catch (error) {
+      console.error('Error while getting msg permission: ', error);
+      Alert.alert(
+        'Alert',
+        'Something went wrong while getting message permission',
+        [
+          {
+            text: 'Close',
+            onPress: () => { },
+          },
+        ]
+      );
+    }
 
     return () => {
       // Remove the event listener when the component is unmounted
       disableBackHandler();
     };
-  }, [navigation]);
+  }, [getMsgPermissions, navigation]);
 
   return (
     <KeyboardAvoidingView
@@ -132,6 +129,7 @@ const LoginScreen = () => {
 
           <Button
             mode="contained"
+            icon="login"
             onPress={handleLogin}
             style={styles.button}
           >

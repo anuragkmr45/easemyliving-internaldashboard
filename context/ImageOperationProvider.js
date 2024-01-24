@@ -1,5 +1,6 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { Image } from 'react-native-compressor';
+import Marker, { Position } from 'react-native-image-marker';
 
 const ImageOperationContext = createContext();
 
@@ -12,6 +13,7 @@ const useImageOperationContext = () => {
 };
 
 const ImageOperationProvider = ({ children }) => {
+    const [watermarkedImageUri, setWatermarkedImageUri] = useState(null);
 
     const useImageCompressor = async (uri) => {
         try {
@@ -28,8 +30,38 @@ const ImageOperationProvider = ({ children }) => {
         }
     };
 
+    const useImageWatermark = async (uri) => {
+        try {
+            const watermarkedImagePath = await Marker.markText({
+                backgroundImage: {
+                    src: uri,
+                    scale: 1,
+                },
+                watermarkTexts: [{
+                    text: 'EaseMyLiving',
+                    positionOptions: {
+                        position: Position.bottomLeft,
+                    },
+                    style: {
+                        color: 'black',
+                        fontSize: 20,
+                    },
+                }],
+                scale: 1,
+                quality: 100,
+                filename: 'watermarked_image',
+                saveFormat: Marker.ImageFormat.png,
+            });
+
+            setWatermarkedImageUri(watermarkedImagePath);
+        } catch (error) {
+            console.error('Error adding watermark: ', error);
+        }
+    };
     const contextValue = {
+        watermarkedImageUri,
         useImageCompressor,
+        useImageWatermark,
     };
 
     return (
