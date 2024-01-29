@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext } from 'react';
 import { Image } from 'react-native-compressor';
-import Marker, { Position } from 'react-native-image-marker';
+import RNPhotoManipulator from 'react-native-photo-manipulator';
 
 const ImageOperationContext = createContext();
 
@@ -13,55 +13,42 @@ const useImageOperationContext = () => {
 };
 
 const ImageOperationProvider = ({ children }) => {
-    const [watermarkedImageUri, setWatermarkedImageUri] = useState(null);
 
-    const useImageCompressor = async (uri) => {
+    const getCompressedImg = async (img) => {
         try {
-            const compressedUri = await Image.compress(uri, {
+            const compressedUri = await Image.compress(img, {
                 quality: 0.8,
                 maxWidth: 800,
                 maxHeight: 600,
             });
 
+            console.log('Image compression done');
             return compressedUri;
         } catch (error) {
             console.error('Error compressing image: ', error);
-            return uri;
+            return img;
         }
+
     };
 
-    const useImageWatermark = async (uri) => {
+    const getWatermarkedImg = async (img) => {
         try {
-            const watermarkedImagePath = await Marker.markText({
-                backgroundImage: {
-                    src: uri,
-                    scale: 1,
-                },
-                watermarkTexts: [{
-                    text: 'EaseMyLiving',
-                    positionOptions: {
-                        position: Position.bottomLeft,
-                    },
-                    style: {
-                        color: 'black',
-                        fontSize: 20,
-                    },
-                }],
-                scale: 1,
-                quality: 100,
-                filename: 'watermarked_image',
-                saveFormat: Marker.ImageFormat.png,
-            });
+            const text = [
+                { position: { x: 50, y: 30 }, text: 'EaseMyLiving', textSize: 20, color: '#484848', thickness: 3 },
+                // { position: { x: 50, y: 30 }, text: "Text 1", textSize: 30, color: "#FFFFFF", thickness: 3 }
+            ];
 
-            setWatermarkedImageUri(watermarkedImagePath);
+            RNPhotoManipulator.printText(img, text).then(path => {
+                console.log(`Result image path: ${path}`);
+            });
         } catch (error) {
-            console.error('Error adding watermark: ', error);
+            console.error('Error while watermarking image: ', error);
         }
     };
+
     const contextValue = {
-        watermarkedImageUri,
-        useImageCompressor,
-        useImageWatermark,
+        getCompressedImg,
+        getWatermarkedImg,
     };
 
     return (

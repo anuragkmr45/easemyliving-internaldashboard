@@ -67,22 +67,25 @@ const LoginScreen = () => {
       );
     });
 
-    try {
-      getMsgPermissions();
-    } catch (error) {
-      console.error('Error while getting msg permission: ', error);
-      Alert.alert(
-        'Alert',
-        'Something went wrong while getting message permission',
-        [
-          {
-            text: 'Close',
-            onPress: () => { },
-          },
-        ]
-      );
-    }
+    const handleMsgPermission = async () => {
+      try {
+        await getMsgPermissions();
+      } catch (error) {
+        console.error('Error while getting msg permission: ', error);
+        Alert.alert(
+          'Alert',
+          'Something went wrong while getting message permission',
+          [
+            {
+              text: 'Close',
+              onPress: () => { },
+            },
+          ]
+        );
+      }
+    };
 
+    handleMsgPermission();
     return () => {
       // Remove the event listener when the component is unmounted
       disableBackHandler();

@@ -18,7 +18,7 @@ const HorizontalCarousel = ({ images }) => {
                 />
             )}
             <ScrollView horizontal indicatorStyle="black" showsHorizontalScrollIndicator={false}>
-                {images.map((data, index) => (
+                {images && images.map((data, index) => (
                     <TouchableOpacity
                         key={index}
                         onPress={() => handleImagePress(data)}

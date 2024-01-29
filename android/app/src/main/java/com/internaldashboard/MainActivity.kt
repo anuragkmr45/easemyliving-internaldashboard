@@ -5,6 +5,9 @@ import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
 import com.facebook.react.defaults.DefaultReactActivityDelegate
 
+// manual importing
+import com.reactnativecompressor.CompressorPackage;
+
 class MainActivity : ReactActivity() {
 
   /**

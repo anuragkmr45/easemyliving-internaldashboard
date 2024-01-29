@@ -1,14 +1,25 @@
-import { ScrollView, Text } from 'react-native';
+import { ScrollView, Text, StyleSheet } from 'react-native';
 import React from 'react';
 
 const SettingScreen = () => {
     return (
         <ScrollView>
-            <Text>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque quidem adipisci suscipit nemo. Esse, odit quod aliquid nemo aspernatur tenetur voluptatem, quis id voluptas doloribus alias. Perspiciatis temporibus voluptatum est, qui error voluptatibus numquam? Maiores ipsa et a quasi nisi fugiat saepe totam corporis nobis libero quod nemo non commodi, dicta doloribus facere autem! Autem ut aspernatur facilis, quod a quia non distinctio aliquam recusandae minus est ab tempore alias quis eveniet quidem veritatis voluptatem consequuntur debitis libero, consequatur, dolores iste. Voluptate, qui exercitationem provident a error, at quo architecto numquam autem dolore minus esse. Cupiditate unde repellat molestiae eveniet eligendi labore veniam maiores cumque quas ducimus natus explicabo, assumenda voluptates maxime atque dignissimos veritatis fugit eum ut provident hic. Necessitatibus eaque repellat ex maiores, nesciunt reprehenderit dolore quae. Architecto cumque error iure id! Consectetur voluptates aliquid consequuntur esse laboriosam! Inventore quia repudiandae et obcaecati, dolore sunt amet cupiditate mollitia accusamus, deleniti ab nemo dolorem dicta. Beatae, consequuntur illo? Sint aliquam libero in doloribus. Dolorem ad saepe officia temporibus a, officiis quos maxime magnam quisquam, qui vitae, modi at? Vitae ratione perspiciatis ex totam voluptatibus sint pariatur, est explicabo porro libero eligendi quisquam nemo, fugit atque blanditiis minima, esse sequi? Perspiciatis corrupti adipisci ut id blanditiis dolorum reiciendis corporis illum placeat, incidunt consequuntur laudantium culpa beatae repellendus, possimus dicta, impedit quasi magnam et. Architecto ipsam doloremque vitae minima, voluptate iure voluptatem earum dolore labore veniam facilis quae sint illo voluptates. Dolorum sunt laborum aliquam at, obcaecati dolor quibusdam molestiae dignissimos non perspiciatis quas! Nulla iste maiores, blanditiis reiciendis amet, quis distinctio animi eum tempore quae fuga illum odit quia porro ad atque consequuntur inventore vero sed alias quam, dignissimos dolorum. Soluta, placeat ipsam tenetur repellat ipsa accusamus saepe iusto pariatur aspernatur aut facilis veniam ullam dolore possimus tempore iste cumque ex itaque temporibus dignissimos nulla illo. Fugiat, quia, doloremque vel id nihil sint vero tenetur eius vitae ducimus architecto pariatur repudiandae eos alias facilis aliquam reiciendis dolores, accusamus consectetur a sequi ipsa aut illum magni! Enim consequuntur laudantium blanditiis maxime quasi quas, maiores iure quod molestiae, magni dolorum sunt harum eum, quibusdam exercitationem accusantium. Nobis rem animi enim deleniti ad dolor ipsa, corrupti, fugit nulla quasi quod accusamus adipisci esse porro debitis eligendi incidunt. Earum temporibus dolorem quos necessitatibus illo adipisci, nesciunt eaque soluta veritatis. Deserunt ipsa quasi soluta corrupti pariatur, non sapiente magni vero, rem voluptatum illum, tenetur nostrum vitae quidem rerum eligendi possimus repellendus praesentium magnam! Officiis corrupti consequuntur, dignissimos reprehenderit minus, accusamus fuga modi, eveniet nulla harum amet quis. Doloremque impedit amet ducimus quasi fugiat at. Pariatur, mollitia at, vel vitae cumque incidunt maiores ut, repudiandae id quisquam rerum suscipit error rem illum quibusdam facere consequuntur nobis commodi. At sequi officia corrupti distinctio, dolores animi possimus voluptatum esse? Magni neque quis repellat fugit blanditiis autem rem dolores. Cumque, enim adipisci sint veniam sit ratione omnis, excepturi eius ipsam odio labore mollitia asperiores praesentium deserunt! Aliquid ab, eum eius quidem magni accusamus error provident iste. Sit, consequatur ratione?
+            <Text style={styles.text} >
+                Comming Soon
             </Text>
         </ScrollView>
     );
 };
+
+const styles = StyleSheet.create({
+    text: {
+        fontSize: 30,
+        textAlign: 'center',
+        flex: 1,
+        color: 'red',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
 
 export default SettingScreen;
