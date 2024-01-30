@@ -16,7 +16,7 @@ const Navigations = () => {
     return (
         <NavigationContainer theme={DefaultTheme}>
             <Stack.Navigator initialRouteName="EaseMyLiving">
-                <Stack.Screen
+                {/* <Stack.Screen
                     name="EaseMyLiving"
                     component={LandingScreen}
                     options={{ header: () => null }}
@@ -29,11 +29,11 @@ const Navigations = () => {
                         // header: () => null,
                         headerLeft: null,
                     }}
-                />
+                /> */}
                 {
                     currentUser && (
                         <>
-                            <Stack.Screen
+                            {/* <Stack.Screen
                                 name="Home"
                                 component={HomeScreen}
                                 options={{ header: () => null }}
@@ -42,7 +42,7 @@ const Navigations = () => {
                                 name="HostelList"
                                 component={HostelListScreen}
                                 options={{ header: () => null }}
-                            />
+                            /> */}
                             <Stack.Screen
                                 name="HostelDtl"
                                 component={HostelDtlScreen}

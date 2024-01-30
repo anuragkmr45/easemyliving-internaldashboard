@@ -34,13 +34,19 @@ const ImageOperationProvider = ({ children }) => {
     const getWatermarkedImg = async (img) => {
         try {
             const text = [
-                { position: { x: 50, y: 30 }, text: 'EaseMyLiving', textSize: 20, color: '#484848', thickness: 3 },
-                // { position: { x: 50, y: 30 }, text: "Text 1", textSize: 30, color: "#FFFFFF", thickness: 3 }
+                {
+                    position: { x: 50, y: 30 },
+                    text: 'EaseMyLiving',
+                    textSize: 50,
+                    color: '#000000',
+                    thickness: 2,
+                },
             ];
 
-            RNPhotoManipulator.printText(img, text).then(path => {
-                console.log(`Result image path: ${path}`);
-            });
+            const watermarkedImg = await RNPhotoManipulator.printText(img, text);
+
+            console.log('Watermarked image done');
+            return watermarkedImg;
         } catch (error) {
             console.error('Error while watermarking image: ', error);
         }

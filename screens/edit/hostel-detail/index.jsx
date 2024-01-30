@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { StyleSheet, SafeAreaView, View, Modal, Text } from 'react-native';
+import { StyleSheet, SafeAreaView, View, Modal, Text, Image } from 'react-native';
 import { Button } from 'react-native-paper';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 
@@ -21,6 +21,15 @@ const HostelDtlScreen = () => {
 
     const { getCompressedImg, getWatermarkedImg } = useImageOperationContext();
 
+    const handleProcessImg = async (img) => {
+        try {
+            const imagePath = await getWatermarkedImg(img);
+            setSelectedImage(imagePath);
+        } catch (error) {
+            console.error('Error while processign img: ', error);
+        }
+    };
+
     const handleSelectImage = useCallback(async () => {
         const options = {
             mediaType: 'photo',
@@ -28,16 +37,19 @@ const HostelDtlScreen = () => {
             maxHeight: 600,
         };
 
-        launchImageLibrary(options, (response) => {
+        launchImageLibrary(options, async (response) => {
             if (response.didCancel) {
                 console.log('User cancelled image picker');
             } else if (response.errorCode) {
                 console.error('ImagePicker Error: ', response.errorCode, response.errorMessage);
             } else {
-                setSelectedImage(response.assets[0]?.uri || null);
-                setModalVisible(false); // Close the modal after selecting an image
+                const imagePath = response.assets[0]?.uri || null;
+                setSelectedImage(imagePath);
+                setModalVisible(false);
+                await handleProcessImg(imagePath);
             }
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleOpenCamera = useCallback(() => {
@@ -45,23 +57,34 @@ const HostelDtlScreen = () => {
             mediaType: 'photo',
         };
 
-        launchCamera(options, (response) => {
+        launchCamera(options, async (response) => {
             if (response.didCancel) {
                 console.log('User cancelled camera');
             } else if (response.errorCode) {
                 console.error('Camera Error: ', response.errorCode, response.errorMessage);
             } else {
-                setSelectedImage(response.assets[0]?.uri || null);
-                setModalVisible(false); // Close the modal after taking a photo
+                const imagePath = response.assets[0]?.uri || null;
+                setSelectedImage(imagePath);
+                setModalVisible(false);
+                await handleProcessImg(imagePath);
             }
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.centeredContainer}>
+            {/* <View style={styles.centeredContainer}>
                 <HorizontalCarousel images={images} />
+            </View> */}
+            <View style={styles.centeredContainer}>
+                {selectedImage ? (
+                    <Image source={{ uri: selectedImage }} style={styles.imageStyle} />
+                ) : (
+                    <HorizontalCarousel images={images} />
+                )}
             </View>
+
             <View style={styles.bottomContainer}>
                 <Button
                     mode="contained"
@@ -82,10 +105,16 @@ const HostelDtlScreen = () => {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <View style={styles.btngrp} >
-                            <Button style={{ backgroundColor: 'black', marginHorizontal: 10 }} mode="contained" onPress={handleSelectImage}>
+                            <Button
+                                style={{ backgroundColor: 'black', marginHorizontal: 10 }}
+                                mode="contained"
+                                onPress={handleSelectImage}>
                                 From Device
                             </Button>
-                            <Button style={{ marginHorizontal: 10 }} mode="outlined" onPress={handleOpenCamera}>
+                            <Button
+                                style={{ marginHorizontal: 10 }}
+                                mode="outlined"
+                                onPress={handleOpenCamera}>
                                 Open Camera
                             </Button>
                         </View>
@@ -132,6 +161,11 @@ const styles = StyleSheet.create({
         paddingVertical: 30,
         paddingHorizontal: 20,
         borderRadius: 10,
+    },
+    imageStyle: {
+        width: '100%', // or specify your desired width
+        height: '100%', // or specify your desired height
+        resizeMode: 'contain', // adjust this based on your image requirements
     },
 });
 
