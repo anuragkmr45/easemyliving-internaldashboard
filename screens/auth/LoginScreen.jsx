@@ -8,42 +8,63 @@ const LoginScreen = () => {
   const navigation = useNavigation();
   const { getMsgPermissions } = usePermissionsContext();
 
-  const [identifier, setIdentifier] = useState('');
-  const [phone, setPhone] = useState(false);
-  const [email, setEmail] = useState(false);
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState();
+  const [otpInputVisible, setOtpInputVisibile] = useState(false);
+  const [otpValue, setOtpValue] = useState();
 
-  const handleLogin = () => {
-    console.log('phone : ', phone);
-    console.log('email : ', email);
-    navigation.navigate('Home');
-  };
+  const authKey = 'Ease@App';
 
-  const handleCheckForPhoneOrEmail = (text) => {
-    setIdentifier(text.trim());
-  };
-  useEffect(() => {
-    // Validate phone or email after the user makes an input
-    const timer = setTimeout(() => {
-      if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier)) {
-        console.log('Entered text is an email address');
-        setEmail(true);
-        setPhone(false);
-      } else if (/^\d{10}$/.test(identifier)) {
-        console.log('Entered text is a phone number');
-        setPhone(true);
-        setEmail(false);
-      } else {
-        console.log('Entered text is neither an email address nor a valid phone number');
-        setEmail(false);
-        setPhone(false);
+  const handleSendOTP = async () => {
+
+    try {
+      if (email !== null) {
+        setOtpInputVisibile(true);
+        const apiUrl = `https://easemyliving.com/easemylivingappauth.php?auth_key=${authKey}&email_id=${email}`;
+        const res = await fetch(apiUrl);
+        if (!res.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const responseData = await res.json();
+
+        if (responseData.status === true) {
+          console.log(responseData.otp);
+        }
       }
-    }, 2000);
+    } catch (error) {
+      console.error('Error while login: ', error);
+      Alert.alert('Error', 'An unexpected error occurred. Please try again later.');
+    }
+  };
 
-    // Clear the timer if the user makes another input within the delay
-    return () => clearTimeout(timer);
-  }, [identifier]);
+  const handleVerifyOTP = async () => {
+    try {
+      const apiUrl = `https://easemyliving.com/easemylivingappauth.php?auth_key=${authKey}&auth_id=${email}&otp=${otpValue}`;
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const responseData = await response.json();
+
+      if (responseData.status !== false) {
+        console.log(responseData)
+        console.log('Login successful');
+      } else {
+        console.error('Login failed:', responseData.message);
+        Alert.alert('Login Failed', responseData.message);
+      }
+
+    } catch (error) {
+      console.error('Error while login: ', error);
+      Alert.alert('Error', 'An unexpected error occurred. Please try again later.');
+    }
+  };
 
   useEffect(() => {
     const disableBackHandler = navigation.addListener('beforeRemove', (e) => {
@@ -87,7 +108,7 @@ const LoginScreen = () => {
 
     handleMsgPermission();
     return () => {
-      // Remove the event listener when the component is unmounted
+
       disableBackHandler();
     };
   }, [getMsgPermissions, navigation]);
@@ -102,42 +123,55 @@ const LoginScreen = () => {
           <TextInput
             label="Phone Number or Email"
             placeholder="Phone Number or Email"
-            value={identifier}
+            value={email}
             mode="outlined"
             style={styles.input}
             keyboardType="email-address"
             autoCapitalize="none"
             autoCompleteType="tel"
             textContentType="telephoneNumber"
-            onChangeText={(e) => handleCheckForPhoneOrEmail(e)}
+            onChangeText={(e) => setEmail(e)}
+            require
           />
-
-          <TextInput
-            label="Password"
-            placeholder="*******"
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            mode="outlined"
-            style={styles.input}
-            keyboardType="default"
-            secureTextEntry
-            right={
-              <TextInput.Icon
-                name={showPassword ? 'eye-off' : 'eye'}
-                onPress={() => setShowPassword(!showPassword)}
-              />}
-          />
-
-          <Image style={styles.img} source={require('../../utils/images/signup.jpg')} />
 
           <Button
             mode="contained"
-            icon="login"
-            onPress={handleLogin}
+            // icon="login"
+            onPress={handleSendOTP}
             style={styles.button}
           >
-            Login
+            Send OTP
           </Button>
+
+          {
+            otpInputVisible && (
+              <View>
+                <TextInput
+                  label="OTP"
+                  placeholder="Enter OTP"
+                  value={otpValue}
+                  mode="outlined"
+                  style={styles.input}
+                  keyboardType="numeric"
+                  maxLength={5}
+                  onChangeText={(text) => setOtpValue(text)}
+                />
+
+                {/* Button for OTP verification */}
+                <Button
+                  mode="contained"
+                  onPress={handleVerifyOTP} // Add a function to verify OTP
+                  style={styles.button}
+                >
+                  Verify OTP
+                </Button>
+              </View>
+            )
+          }
+
+          <Image style={styles.img} source={require('../../utils/images/signup.jpg')} />
+
+
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

@@ -22,7 +22,7 @@ const ImageOperationProvider = ({ children }) => {
                 maxHeight: 600,
             });
 
-            console.log('Image compression done');
+            // console.log('Image compression done');
             return compressedUri;
         } catch (error) {
             console.error('Error compressing image: ', error);
@@ -35,9 +35,9 @@ const ImageOperationProvider = ({ children }) => {
         try {
             const text = [
                 {
-                    position: { x: 50, y: 30 },
+                    position: { x: 20, y: 20 },
                     text: 'EaseMyLiving',
-                    textSize: 50,
+                    textSize: 40,
                     color: '#000000',
                     thickness: 2,
                 },
@@ -45,7 +45,7 @@ const ImageOperationProvider = ({ children }) => {
 
             const watermarkedImg = await RNPhotoManipulator.printText(img, text);
 
-            console.log('Watermarked image done');
+            // console.log('Watermarked image done');
             return watermarkedImg;
         } catch (error) {
             console.error('Error while watermarking image: ', error);

@@ -45,11 +45,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 25,
         justifyContent: 'center',
     },
-    middleContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
     logo: {
         height: 130,
         width: 250,

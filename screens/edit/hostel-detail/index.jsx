@@ -24,7 +24,8 @@ const HostelDtlScreen = () => {
     const handleProcessImg = async (img) => {
         try {
             const imagePath = await getWatermarkedImg(img);
-            setSelectedImage(imagePath);
+            const tempimg = await getCompressedImg(imagePath);
+            setSelectedImage(tempimg);
         } catch (error) {
             console.error('Error while processign img: ', error);
         }
